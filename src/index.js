@@ -1,25 +1,89 @@
-import url from 'url';
+import fs from 'fs';
+import http from 'http';
+import https from 'https';
 import qs from 'querystring';
+import url from 'url';
 
 export default class EasyDownloader {
+  static download({
+    uri,
+    destination,
+    method = 'GET',
+    encoding,
+    data,
+    formData,
+    headers = {},
+    auth
+  }) {
+    return new Promise((resolve, reject) => {
+      const destinationFile = fs.createWriteStream(destination);
+
+      const options = EasyDownloader.getRequestOptions({
+        uri,
+        method,
+        data,
+        formData,
+        headers,
+        auth
+      });
+
+      const client = options.protocol === 'https:' ? https : http;
+
+      const request = client.request(options, response => {
+        if (encoding) {
+          response.setEncoding(encoding);
+        }
+
+        response.pipe(destinationFile);
+
+        destinationFile.on('error', err => {
+          reject(err);
+        });
+
+        destinationFile.on('finish', () => {
+          destinationFile.close(err => {
+            if (err) {
+              return reject(err);
+            }
+
+            return resolve(destination);
+          });
+        });
+      });
+
+      if (EasyDownloader.shouldWriteBody({ method, data, formData })) {
+        request.write(EasyDownloader.stringifyBody({ data, formData }));
+      }
+
+      request.end();
+
+      request.on('error', err => {
+        reject(err);
+      });
+    });
+  }
+
   static getRequestOptions({
     uri,
     method = 'GET',
     data,
     formData,
     headers = {},
-    auth = null
+    auth
   }) {
     const parsedUri = url.parse(uri);
 
     const options = {
       protocol: parsedUri.protocol || 'http:',
       hostname: parsedUri.hostname,
-      port: parsedUri.port || (parsedUri.protocol === 'https:' ? 433 : 80),
       path: parsedUri.path || '/',
       method: method.toUpperCase(),
       headers
     };
+
+    if (parsedUri.port) {
+      options.port = parseInt(parsedUri.port);
+    }
 
     if (EasyDownloader.isNonEmptyObject(auth)) {
       const username = auth.username || '';
@@ -85,10 +149,11 @@ export default class EasyDownloader {
   }
 
   static isNonEmptyObject(obj) {
-    return (
-      typeof obj === 'object' &&
-      Object.keys(obj).length > 0 &&
-      obj.constructor === Object
-    );
+    if (typeof obj !== 'object') {
+      return false;
+
+    }
+
+    return Object.keys(obj).length > 0 && obj.constructor === Object;
   }
 }
