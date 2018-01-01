@@ -46,6 +46,15 @@ test('can check if HTTP method accept the body', () => {
   expect(EasyDownloader.isMethodAcceptBody('DELETE')).toBe(false);
 });
 
+test('can stringify body', () => {
+  expect(EasyDownloader.stringifyBody({ data: { foo: 'bar' } })).toBe(
+    '{"foo":"bar"}'
+  );
+  expect(EasyDownloader.stringifyBody({ formData: { foo: 'bar' } })).toBe(
+    'foo=bar'
+  );
+});
+
 test('can check if it is non-empty object', () => {
   expect(EasyDownloader.isNonEmptyObject({ foo: 'bar' })).toBe(true);
   expect(EasyDownloader.isNonEmptyObject({})).toBe(false);
