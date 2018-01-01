@@ -5,7 +5,8 @@ test('can get request options', () => {
     EasyDownloader.getRequestOptions({
       uri: 'https://example.com/foo/bar?baz=qux',
       method: 'POST',
-      headers: { foo: 'bar' },
+      data: { foo: 'bar' },
+      headers: { baz: 'qux' },
       auth: {
         username: 'john',
         password: 'secret'
@@ -17,7 +18,11 @@ test('can get request options', () => {
     port: 433,
     path: '/foo/bar?baz=qux',
     method: 'POST',
-    headers: { foo: 'bar' },
+    headers: {
+      'Content-Length': 13,
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      baz: 'qux'
+    },
     auth: 'john:secret'
   });
 });
