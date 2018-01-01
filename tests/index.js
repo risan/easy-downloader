@@ -10,7 +10,7 @@ const removeDownloadedTestFiles = () => {
   } catch (err) {
     //
   }
-}
+};
 
 beforeAll(() => removeDownloadedTestFiles());
 
@@ -25,12 +25,14 @@ test('can download', async () => {
 
   expect.assertions(2);
 
-  await expect(EasyDownloader.download({
-    uri: 'http://example.com/test.txt',
-    destination: DESTINATION,
-    method: 'GET',
-    encoding: 'utf8',
-  })).resolves.toEqual(DESTINATION);
+  await expect(
+    EasyDownloader.download({
+      uri: 'http://example.com/test.txt',
+      destination: DESTINATION,
+      method: 'GET',
+      encoding: 'utf8'
+    })
+  ).resolves.toEqual(DESTINATION);
 
   expect(fs.readFileSync(DESTINATION, { encoding: 'utf8' })).toBe(content);
 });
@@ -42,12 +44,14 @@ test('throws error when request failed', async () => {
 
   expect.assertions(1);
 
-  await expect(EasyDownloader.download({
-    uri: 'http://example.com/test.txt',
-    destination: DESTINATION,
-    method: 'GET',
-    encoding: 'utf8',
-  })).rejects.toEqual(new Error('foo'));
+  await expect(
+    EasyDownloader.download({
+      uri: 'http://example.com/test.txt',
+      destination: DESTINATION,
+      method: 'GET',
+      encoding: 'utf8'
+    })
+  ).rejects.toEqual(new Error('foo'));
 });
 
 test('can get request options', () => {

@@ -82,7 +82,7 @@ export default class EasyDownloader {
     };
 
     if (parsedUri.port) {
-      options.port = parseInt(parsedUri.port);
+      options.port = parseInt(parsedUri.port, 10);
     }
 
     if (EasyDownloader.isNonEmptyObject(auth)) {
@@ -151,7 +151,6 @@ export default class EasyDownloader {
   static isNonEmptyObject(obj) {
     if (typeof obj !== 'object') {
       return false;
-
     }
 
     return Object.keys(obj).length > 0 && obj.constructor === Object;
