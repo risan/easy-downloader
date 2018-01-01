@@ -45,3 +45,10 @@ test('can check if HTTP method accept the body', () => {
   expect(EasyDownloader.isMethodAcceptBody('GET')).toBe(false);
   expect(EasyDownloader.isMethodAcceptBody('DELETE')).toBe(false);
 });
+
+test('can check if it is non-empty object', () => {
+  expect(EasyDownloader.isNonEmptyObject({ foo: 'bar' })).toBe(true);
+  expect(EasyDownloader.isNonEmptyObject({})).toBe(false);
+  expect(EasyDownloader.isNonEmptyObject('foo')).toBe(false);
+  expect(EasyDownloader.isNonEmptyObject(['foo'])).toBe(false);
+});
