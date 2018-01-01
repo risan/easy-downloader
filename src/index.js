@@ -13,7 +13,7 @@ export default class EasyDownloader {
       headers
     };
 
-    if (auth) {
+    if (EasyDownloader.isNonEmptyObject(auth)) {
       const username = auth.username || '';
       const password = auth.password || '';
       options.auth = `${username}:${password}`;
@@ -27,10 +27,21 @@ export default class EasyDownloader {
       return false;
     }
 
-    return !!(data || formData);
+    return (
+      EasyDownloader.isNonEmptyObject(data) ||
+      EasyDownloader.isNonEmptyObject(formData)
+    );
   }
 
   static isMethodAcceptBody(method) {
     return ['POST', 'PUT', 'PATCH'].includes(method.toUpperCase());
+  }
+
+  static isNonEmptyObject(obj) {
+    return (
+      typeof obj === 'object' &&
+      Object.keys(obj).length > 0 &&
+      obj.constructor === Object
+    );
   }
 }
