@@ -35,6 +35,21 @@ test('can download', async () => {
   expect(fs.readFileSync(DESTINATION, { encoding: 'utf8' })).toBe(content);
 });
 
+test('throws error when request failed', async () => {
+  const server = nock('http://example.com')
+    .get('/test.txt')
+    .replyWithError(new Error('foo'));
+
+  expect.assertions(1);
+
+  await expect(EasyDownloader.download({
+    uri: 'http://example.com/test.txt',
+    destination: DESTINATION,
+    method: 'GET',
+    encoding: 'utf8',
+  })).rejects.toEqual(new Error('foo'));
+});
+
 test('can get request options', () => {
   expect(
     EasyDownloader.getRequestOptions({
