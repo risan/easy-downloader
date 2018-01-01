@@ -1,9 +1,44 @@
+import fs from 'fs';
+import nock from 'nock';
 import EasyDownloader from '../src';
+
+const DESTINATION = 'tests/download.txt';
+
+const removeDownloadedTestFiles = () => {
+  try {
+    fs.unlinkSync(DESTINATION);
+  } catch (err) {
+    //
+  }
+}
+
+beforeAll(() => removeDownloadedTestFiles());
+
+afterAll(() => removeDownloadedTestFiles());
+
+test('can download', async () => {
+  const content = 'foo';
+
+  const server = nock('http://example.com')
+    .get('/test.txt')
+    .reply(200, Buffer.from('foo'));
+
+  expect.assertions(2);
+
+  await expect(EasyDownloader.download({
+    uri: 'http://example.com/test.txt',
+    destination: DESTINATION,
+    method: 'GET',
+    encoding: 'utf8',
+  })).resolves.toEqual(DESTINATION);
+
+  expect(fs.readFileSync(DESTINATION, { encoding: 'utf8' })).toBe(content);
+});
 
 test('can get request options', () => {
   expect(
     EasyDownloader.getRequestOptions({
-      uri: 'https://example.com/foo/bar?baz=qux',
+      uri: 'https://example.com:3000/foo/bar?baz=qux',
       method: 'POST',
       data: { foo: 'bar' },
       headers: { baz: 'qux' },
@@ -15,7 +50,7 @@ test('can get request options', () => {
   ).toEqual({
     protocol: 'https:',
     hostname: 'example.com',
-    port: 433,
+    port: 3000,
     path: '/foo/bar?baz=qux',
     method: 'POST',
     headers: {
