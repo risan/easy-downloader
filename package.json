@@ -1,6 +1,6 @@
 {
   "name": "easy-downloader",
-  "description": "A package for downloading file",
+  "description": "A Javascript library for downloading file",
   "version": "1.0.0-alpha.1",
   "license": "MIT",
   "homepage": "https://github.com/risan/easy-downloader#readme",
