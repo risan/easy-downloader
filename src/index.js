@@ -1,4 +1,5 @@
 import url from 'url';
+import qs from 'querystring';
 
 export default class EasyDownloader {
   static getRequestOptions({ uri, method = 'GET', headers = {}, auth = null }) {
@@ -35,6 +36,18 @@ export default class EasyDownloader {
 
   static isMethodAcceptBody(method) {
     return ['POST', 'PUT', 'PATCH'].includes(method.toUpperCase());
+  }
+
+  static stringifyBody({ data, formData }) {
+    if (EasyDownloader.isNonEmptyObject(data)) {
+      return JSON.stringify(data);
+    }
+
+    if (EasyDownloader.isNonEmptyObject(formData)) {
+      return qs.stringify(formData);
+    }
+
+    return null;
   }
 
   static isNonEmptyObject(obj) {
