@@ -2,7 +2,14 @@ import url from 'url';
 import qs from 'querystring';
 
 export default class EasyDownloader {
-  static getRequestOptions({ uri, method = 'GET', headers = {}, auth = null }) {
+  static getRequestOptions({
+    uri,
+    method = 'GET',
+    data,
+    formData,
+    headers = {},
+    auth = null
+  }) {
     const parsedUri = url.parse(uri);
 
     const options = {
@@ -18,6 +25,21 @@ export default class EasyDownloader {
       const username = auth.username || '';
       const password = auth.password || '';
       options.auth = `${username}:${password}`;
+    }
+
+    if (EasyDownloader.shouldWriteBody({ method, data, formData })) {
+      if (!options.headers['Content-Type']) {
+        options.headers['Content-Type'] = EasyDownloader.getContentType({
+          data,
+          formData
+        });
+      }
+
+      if (!options.headers['Content-Length']) {
+        options.headers['Content-Length'] = Buffer.byteLength(
+          EasyDownloader.stringifyBody({ data, formData })
+        );
+      }
     }
 
     return options;
