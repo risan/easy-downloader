@@ -15,9 +15,10 @@ export default [
         format: 'es'
       }
     ],
+    external: ['fs', 'http', 'https', 'querystring', 'url'],
     plugins: [
       eslint({
-        include: ["src/**"],
+        include: ['src/**'],
         throwOnError: true,
         throwOnWarning: true
       }),
