@@ -38,7 +38,19 @@ export default class EasyDownloader {
     return ['POST', 'PUT', 'PATCH'].includes(method.toUpperCase());
   }
 
-  static stringifyBody({ data, formData }) {
+  static getContentType({ data, formData } = {}) {
+    if (EasyDownloader.isNonEmptyObject(data)) {
+      return 'application/x-www-form-urlencoded;charset=utf-8';
+    }
+
+    if (EasyDownloader.isNonEmptyObject(formData)) {
+      return 'application/json;charset=utf-8';
+    }
+
+    return null;
+  }
+
+  static stringifyBody({ data, formData } = {}) {
     if (EasyDownloader.isNonEmptyObject(data)) {
       return JSON.stringify(data);
     }
