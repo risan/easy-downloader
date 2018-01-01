@@ -22,7 +22,7 @@ $ npm install easy-downloader
 import EasyDownloader from 'easy-downloader';
 
 EasyDownloader.download({ uri: 'httpbin.org/image/png', destination: 'test.png' })
-  .then((destination) => console.log(`File is downloaded to: ${destination}`))
+  .then(destination => console.log(`File is downloaded to: ${destination}`))
   .catch(e => console.error(e.message));
 ```
 
@@ -65,10 +65,10 @@ EasyDownloader.download({
     },
     auth: {
       username: 'john',
-      password: 'secret
+      password: 'secret'
     }
   })
-  .then((destination) => console.log(`File is downloaded to: ${destination}`))
+  .then(destination => console.log(`File is downloaded to: ${destination}`))
   .catch(e => console.error(e.message));
 ```
 
