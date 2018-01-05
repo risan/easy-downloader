@@ -1,6 +1,6 @@
 {
   "name": "easy-downloader",
-  "description": "A Javascript library for downloading file",
+  "description": "A promise based library for downloading file",
   "version": "1.0.0",
   "license": "MIT",
   "homepage": "https://github.com/risan/easy-downloader#readme",
@@ -19,6 +19,7 @@
   "keywords": [
     "download",
     "downloader",
+    "promise",
     "request"
   ],
   "main": "dist/easy-downloader.cjs.js",
