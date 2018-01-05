@@ -1,14 +1,14 @@
 # Easy Downloader
 
 [![Latest Stable Version](https://img.shields.io/npm/v/easy-downloader.svg)](https://www.npmjs.com/package/easy-downloader)
-[![Build Status](https://travis-ci.org/risan/easy-downloader.svg?branch=master)](https://travis-ci.org/risan/easy-downloader)
 [![Node Version](https://img.shields.io/node/v/easy-downloader.svg)](https://www.npmjs.com/package/easy-downloader)
+[![Build Status](https://travis-ci.org/risan/easy-downloader.svg?branch=master)](https://travis-ci.org/risan/easy-downloader)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/216528b54c5d591441b8/test_coverage)](https://codeclimate.com/github/risan/easy-downloader/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/216528b54c5d591441b8/maintainability)](https://codeclimate.com/github/risan/easy-downloader/maintainability)
 [![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/risan/easy-downloader)
 [![License](https://img.shields.io/npm/l/easy-downloader.svg)](https://www.npmjs.com/package/easy-downloader)
 
-A package for downloading file.
+A promised based library for downloading file.
 
 ## Install
 
@@ -19,7 +19,7 @@ $ npm install easy-downloader
 ## Usage
 
 ```js
-import EasyDownloader from 'easy-downloader';
+const EasyDownloader = require('easy-downloader');
 
 EasyDownloader.download({ uri: 'httpbin.org/image/png', destination: 'test.png' })
   .then(destination => console.log(`File is downloaded to: ${destination}`))
