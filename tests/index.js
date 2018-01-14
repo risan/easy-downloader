@@ -2,6 +2,7 @@ import fs from 'fs';
 import nock from 'nock';
 import EasyDownloader from '../src';
 
+/* eslint-disable no-undef */
 const DESTINATION = 'tests/download.txt';
 
 const removeDownloadedTestFiles = () => {
@@ -19,7 +20,7 @@ afterAll(() => removeDownloadedTestFiles());
 test('can download', async () => {
   const content = 'foo';
 
-  const server = nock('http://example.com')
+  nock('http://example.com')
     .get('/test.txt')
     .reply(200, Buffer.from('foo'));
 
@@ -38,7 +39,7 @@ test('can download', async () => {
 });
 
 test('throws error when request failed', async () => {
-  const server = nock('http://example.com')
+  nock('http://example.com')
     .get('/test.txt')
     .replyWithError(new Error('foo'));
 
@@ -131,3 +132,4 @@ test('can check if it is non-empty object', () => {
   expect(EasyDownloader.isNonEmptyObject('foo')).toBe(false);
   expect(EasyDownloader.isNonEmptyObject(['foo'])).toBe(false);
 });
+/* eslint-enable no-undef */
