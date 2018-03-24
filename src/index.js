@@ -126,11 +126,11 @@ export default class EasyDownloader {
 
   static getContentType({ data, formData } = {}) {
     if (EasyDownloader.isNonEmptyObject(data)) {
-      return 'application/x-www-form-urlencoded;charset=utf-8';
+      return 'application/json;charset=utf-8';
     }
 
     if (EasyDownloader.isNonEmptyObject(formData)) {
-      return 'application/json;charset=utf-8';
+      return 'application/x-www-form-urlencoded;charset=utf-8';
     }
 
     return null;
