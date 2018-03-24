@@ -75,7 +75,7 @@ test('can get request options', () => {
     method: 'POST',
     headers: {
       'Content-Length': 13,
-      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      'Content-Type': 'application/json;charset=utf-8',
       baz: 'qux'
     },
     auth: 'john:secret'
@@ -108,10 +108,10 @@ test('can check if HTTP method accept the body', () => {
 
 test('can get content type', () => {
   expect(EasyDownloader.getContentType({ data: { foo: 'bar' } })).toBe(
-    'application/x-www-form-urlencoded;charset=utf-8'
+    'application/json;charset=utf-8'
   );
   expect(EasyDownloader.getContentType({ formData: { foo: 'bar' } })).toBe(
-    'application/json;charset=utf-8'
+    'application/x-www-form-urlencoded;charset=utf-8'
   );
   expect(EasyDownloader.getContentType()).toBeNull();
 });
