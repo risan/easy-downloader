@@ -1,35 +1,36 @@
 {
-  "name": "easy-downloader",
-  "description": "Node library for downloading a file",
-  "version": "1.0.3",
+  "name": "easy-download",
+  "version": "1.0.0",
+  "description": "Download file using the URL",
+  "keywords": [
+    "download",
+    "http",
+    "http-client"
+  ],
+  "homepage": "https://github.com/risan/easy-download#readme",
+  "bugs": {
+    "url": "https://github.com/risan/easy-download/issues"
+  },
   "license": "MIT",
-  "homepage": "https://github.com/risan/easy-downloader#readme",
   "author": {
     "name": "Risan Bagja Pradana",
     "email": "risanbagja@gmail.com",
     "url": "https://bagja.net"
   },
+  "main": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/risan/easy-downloader.git"
-  },
-  "bugs": {
-    "url": "https://github.com/risan/easy-downloader/issues"
-  },
-  "keywords": [
-    "download",
-    "downloader",
-    "promise"
-  ],
-  "main": "src/index.js",
-  "engines": {
-    "node": ">=8.0.0"
+    "url": "git+https://github.com/risan/easy-download.git"
   },
   "scripts": {
     "lint": "eslint ./",
     "lint-fix": "eslint ./ --fix",
     "prepublishOnly": "npm run lint && npm run test",
     "test": "jest"
+  },
+  "dependencies": {
+    "send-request": "1.x",
+    "write-to-file": "1.x"
   },
   "devDependencies": {
     "eslint": "^5.9.0",
@@ -38,6 +39,10 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-prettier": "^3.0.0",
     "jest": "^23.6.0",
+    "nock": "^10.0.2",
     "prettier": "^1.15.2"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   }
 }

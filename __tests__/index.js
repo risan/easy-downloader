@@ -1,135 +1,186 @@
-import fs from 'fs';
-import nock from 'nock';
-import EasyDownloader from '../src';
+/* global afterAll:false, afterEach:false, beforeAll:false, expect:false, test:false */
+const fs = require("fs");
+const p = require("path");
+const nock = require("nock");
 
-/* eslint-disable no-undef */
-const DESTINATION = 'tests/download.txt';
+const easyDownload = require("../src");
 
-const removeDownloadedTestFiles = () => {
+const BASE_URL = "https://example.com";
+const BASE_DIR = `${__dirname}/fixtures`;
+
+const urlFor = (path = "/") => `${BASE_URL}${path}`;
+const filePath = (path = "/") => p.join(BASE_DIR, path);
+
+const rmdir = path => {
   try {
-    fs.unlinkSync(DESTINATION);
-  } catch (err) {
-    //
+    fs.rmdirSync(filePath(path));
+  } catch (error) {
+    if (error.code !== "ENOENT") {
+      throw error;
+    }
   }
 };
 
-beforeAll(() => removeDownloadedTestFiles());
+const unlink = path => {
+  try {
+    fs.unlinkSync(filePath(path));
+  } catch (error) {
+    if (error.code !== "ENOENT") {
+      throw error;
+    }
+  }
+};
 
-afterAll(() => removeDownloadedTestFiles());
+beforeAll(() => fs.mkdirSync(BASE_DIR));
 
-test('can download', async () => {
-  const content = 'foo';
+afterAll(() => fs.rmdirSync(BASE_DIR));
 
-  nock('http://example.com')
-    .get('/test.txt')
-    .reply(200, Buffer.from('foo'));
+afterEach(() => {
+  unlink("test.txt");
+  unlink("test.html");
+  unlink("test.png");
 
-  expect.assertions(2);
-
-  await expect(
-    EasyDownloader.download({
-      uri: 'http://example.com/test.txt',
-      destination: DESTINATION,
-      method: 'GET',
-      encoding: 'utf8'
-    })
-  ).resolves.toEqual(DESTINATION);
-
-  expect(fs.readFileSync(DESTINATION, { encoding: 'utf8' })).toBe(content);
+  unlink("foo/bar/test.txt");
+  rmdir("foo/bar");
+  rmdir("foo");
 });
 
-test('throws error when request failed', async () => {
-  nock('http://example.com')
-    .get('/test.txt')
-    .replyWithError(new Error('foo'));
+const mockServer = ({
+  url = BASE_URL,
+  path = "/",
+  status = 200,
+  body,
+  headers
+}) =>
+  nock(url)
+    .get(path)
+    .reply(status, body, headers);
 
-  expect.assertions(1);
+test("it can download a text file", async () => {
+  const body = "Hello World";
 
-  await expect(
-    EasyDownloader.download({
-      uri: 'http://example.com/test.txt',
-      destination: DESTINATION,
-      method: 'GET',
-      encoding: 'utf8'
-    })
-  ).rejects.toEqual(new Error('foo'));
-});
-
-test('can get request options', () => {
-  expect(
-    EasyDownloader.getRequestOptions({
-      uri: 'https://example.com:3000/foo/bar?baz=qux',
-      method: 'POST',
-      data: { foo: 'bar' },
-      headers: { baz: 'qux' },
-      auth: {
-        username: 'john',
-        password: 'secret'
-      }
-    })
-  ).toEqual({
-    protocol: 'https:',
-    hostname: 'example.com',
-    port: 3000,
-    path: '/foo/bar?baz=qux',
-    method: 'POST',
+  const scope = mockServer({
+    path: "/test.txt",
+    body,
     headers: {
-      'Content-Length': 13,
-      'Content-Type': 'application/json;charset=utf-8',
-      baz: 'qux'
-    },
-    auth: 'john:secret'
+      "content-type": "text/plain"
+    }
   });
+
+  const file = filePath("test.txt");
+
+  expect(fs.existsSync(file)).toBe(false);
+
+  await easyDownload({
+    url: urlFor("/test.txt"),
+    destination: file
+  });
+
+  expect(scope.isDone()).toBe(true);
+  expect(fs.existsSync(file)).toBe(true);
+  expect(fs.readFileSync(file, "utf8")).toBe(body);
 });
 
-test('can check if body should be written', () => {
-  expect(
-    EasyDownloader.shouldWriteBody({ method: 'POST', data: { foo: 'bar' } })
-  ).toBe(true);
+test("it can download an html file", async () => {
+  const body = "<h1>Hello World</h1>";
 
-  expect(
-    EasyDownloader.shouldWriteBody({ method: 'POST', formData: { foo: 'bar' } })
-  ).toBe(true);
+  const scope = mockServer({
+    path: "/test.html",
+    body,
+    headers: {
+      "content-type": "text/html"
+    }
+  });
 
-  expect(EasyDownloader.shouldWriteBody({ method: 'POST' })).toBe(false);
+  const file = filePath("test.html");
 
-  expect(
-    EasyDownloader.shouldWriteBody({ method: 'GET', data: { foo: 'bar' } })
-  ).toBe(false);
+  expect(fs.existsSync(file)).toBe(false);
+
+  await easyDownload({
+    url: urlFor("/test.html"),
+    destination: file
+  });
+
+  expect(scope.isDone()).toBe(true);
+  expect(fs.existsSync(file)).toBe(true);
+  expect(fs.readFileSync(file, "utf8")).toBe(body);
 });
 
-test('can check if HTTP method accept the body', () => {
-  expect(EasyDownloader.isMethodAcceptBody('POST')).toBe(true);
-  expect(EasyDownloader.isMethodAcceptBody('PUT')).toBe(true);
-  expect(EasyDownloader.isMethodAcceptBody('PATCH')).toBe(true);
-  expect(EasyDownloader.isMethodAcceptBody('GET')).toBe(false);
-  expect(EasyDownloader.isMethodAcceptBody('DELETE')).toBe(false);
-});
-
-test('can get content type', () => {
-  expect(EasyDownloader.getContentType({ data: { foo: 'bar' } })).toBe(
-    'application/json;charset=utf-8'
+test("it can download an image file", async () => {
+  const body = Buffer.from(
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8DwHwAFBQIAX8jx0gAAAABJRU5ErkJggg==",
+    "base64"
   );
-  expect(EasyDownloader.getContentType({ formData: { foo: 'bar' } })).toBe(
-    'application/x-www-form-urlencoded;charset=utf-8'
-  );
-  expect(EasyDownloader.getContentType()).toBeNull();
+
+  const scope = mockServer({
+    path: "/test.png",
+    body,
+    headers: {
+      "content-type": "image/png"
+    }
+  });
+
+  const file = filePath("test.png");
+
+  expect(fs.existsSync(file)).toBe(false);
+
+  await easyDownload({
+    url: urlFor("/test.png"),
+    destination: file,
+    encoding: "base64"
+  });
+
+  expect(scope.isDone()).toBe(true);
+  expect(fs.existsSync(file)).toBe(true);
+  expect(fs.readFileSync(file)).toEqual(body);
 });
 
-test('can stringify body', () => {
-  expect(EasyDownloader.stringifyBody({ data: { foo: 'bar' } })).toBe(
-    '{"foo":"bar"}'
-  );
-  expect(EasyDownloader.stringifyBody({ formData: { foo: 'bar' } })).toBe(
-    'foo=bar'
-  );
-  expect(EasyDownloader.stringifyBody()).toBeNull();
+test("it can download file and automatically create its parent directories", async () => {
+  const body = "Hello World";
+
+  const scope = mockServer({
+    path: "/test.txt",
+    body,
+    headers: {
+      "content-type": "text/plain"
+    }
+  });
+
+  const file = filePath("foo/bar/test.txt");
+
+  expect(fs.existsSync(file)).toBe(false);
+
+  await easyDownload({
+    url: urlFor("/test.txt"),
+    destination: file
+  });
+
+  expect(scope.isDone()).toBe(true);
+  expect(fs.existsSync(file)).toBe(true);
+  expect(fs.readFileSync(file, "utf8")).toBe(body);
 });
 
-test('can check if it is non-empty object', () => {
-  expect(EasyDownloader.isNonEmptyObject({ foo: 'bar' })).toBe(true);
-  expect(EasyDownloader.isNonEmptyObject({})).toBe(false);
-  expect(EasyDownloader.isNonEmptyObject('foo')).toBe(false);
-  expect(EasyDownloader.isNonEmptyObject(['foo'])).toBe(false);
+test("it throws error if status code >= 400", async () => {
+  expect.assertions(4);
+
+  const scope = mockServer({
+    path: "/test.txt",
+    status: 400
+  });
+
+  const file = filePath("test.txt");
+
+  expect(fs.existsSync(file)).toBe(false);
+
+  try {
+    await easyDownload({
+      url: urlFor("/test.txt"),
+      destination: file
+    });
+  } catch (error) {
+    expect(error.response.statusCode).toBe(400);
+  }
+
+  expect(scope.isDone()).toBe(true);
+  expect(fs.existsSync(file)).toBe(false);
 });
-/* eslint-enable no-undef */
