@@ -53,6 +53,10 @@ download(url, destination, [options]);
   * `body` (`Object|FormData`): The request body to send. It can be a plain JavaScript object or an instance of [`FormData`](https://github.com/form-data/form-data).
   * `json` (`Boolean`): Set to `true` if you want to send the request body with `application/json` content type. Default to `false`, which means that the request body will be sent as `application/x-www-form-urlencoded`. Note that you can still override the content type using the `headers` option.
 
+## Related
+
+* [send-request](https://github.com/risan/send-request): Lightweight HTTP client for Node.
+
 ## License
 
 MIT © [Risan Bagja Pradana](https://bagja.net)
