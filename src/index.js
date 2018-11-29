@@ -4,16 +4,15 @@ const writeToFile = require("write-to-file");
 /**
  * Download file.
  *
- * @param {String} options.url
- * @param {String} options.destination
- * @param {String} options.encoding
- * @param {Object} options.options
+ * @param {String} url
+ * @param {String} destination
+ * @param {Object} options
  * @return {Promise}
  */
-const easyDownload = async ({ url, destination, encoding, ...options }) => {
-  const { body } = await sendRequest(url, { encoding, ...options });
+const easyDownload = async (url, destination, options = {}) => {
+  const { body } = await sendRequest(url, { ...options, encoding: null });
 
-  return writeToFile(destination, body, { encoding });
+  return writeToFile(destination, body);
 };
 
 module.exports = easyDownload;

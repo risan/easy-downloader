@@ -29,7 +29,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "send-request": "1.x",
+    "send-request": "^1.0.1",
     "write-to-file": "1.x"
   },
   "devDependencies": {

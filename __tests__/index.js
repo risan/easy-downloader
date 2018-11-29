@@ -71,10 +71,7 @@ test("it can download a text file", async () => {
 
   expect(fs.existsSync(file)).toBe(false);
 
-  await easyDownload({
-    url: urlFor("/test.txt"),
-    destination: file
-  });
+  await easyDownload(urlFor("/test.txt"), file);
 
   expect(scope.isDone()).toBe(true);
   expect(fs.existsSync(file)).toBe(true);
@@ -96,10 +93,7 @@ test("it can download an html file", async () => {
 
   expect(fs.existsSync(file)).toBe(false);
 
-  await easyDownload({
-    url: urlFor("/test.html"),
-    destination: file
-  });
+  await easyDownload(urlFor("/test.html"), file);
 
   expect(scope.isDone()).toBe(true);
   expect(fs.existsSync(file)).toBe(true);
@@ -124,11 +118,7 @@ test("it can download an image file", async () => {
 
   expect(fs.existsSync(file)).toBe(false);
 
-  await easyDownload({
-    url: urlFor("/test.png"),
-    destination: file,
-    encoding: "base64"
-  });
+  await easyDownload(urlFor("/test.png"), file);
 
   expect(scope.isDone()).toBe(true);
   expect(fs.existsSync(file)).toBe(true);
@@ -150,10 +140,7 @@ test("it can download file and automatically create its parent directories", asy
 
   expect(fs.existsSync(file)).toBe(false);
 
-  await easyDownload({
-    url: urlFor("/test.txt"),
-    destination: file
-  });
+  await easyDownload(urlFor("/test.txt"), file);
 
   expect(scope.isDone()).toBe(true);
   expect(fs.existsSync(file)).toBe(true);
@@ -173,10 +160,7 @@ test("it throws error if status code >= 400", async () => {
   expect(fs.existsSync(file)).toBe(false);
 
   try {
-    await easyDownload({
-      url: urlFor("/test.txt"),
-      destination: file
-    });
+    await easyDownload(urlFor("/test.txt"), file);
   } catch (error) {
     expect(error.response.statusCode).toBe(400);
   }

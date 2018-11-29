@@ -1,77 +1,58 @@
-# Easy Downloader
+# Easy Download
 
-[![Latest Stable Version](https://img.shields.io/npm/v/easy-downloader.svg)](https://www.npmjs.com/package/easy-downloader)
-[![Node Version](https://img.shields.io/node/v/easy-downloader.svg)](https://www.npmjs.com/package/easy-downloader)
-[![Build Status](https://travis-ci.org/risan/easy-downloader.svg?branch=master)](https://travis-ci.org/risan/easy-downloader)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/216528b54c5d591441b8/test_coverage)](https://codeclimate.com/github/risan/easy-downloader/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/216528b54c5d591441b8/maintainability)](https://codeclimate.com/github/risan/easy-downloader/maintainability)
-[![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/risan/easy-downloader)
-[![License](https://img.shields.io/npm/l/easy-downloader.svg)](https://www.npmjs.com/package/easy-downloader)
+[![Build Status](https://flat.badgen.net/travis/risan/easy-download)](https://travis-ci.org/risan/easy-download)
+[![Test Coverage](https://flat.badgen.net/codeclimate/coverage/risan/easy-download)](https://codeclimate.com/github/risan/easy-download)
+[![Maintainability](https://flat.badgen.net/codeclimate/maintainability/risan/easy-download)](https://codeclimate.com/github/risan/easy-download)
+[![Latest Stable Version](https://flat.badgen.net/npm/v/easy-download)](https://www.npmjs.com/package/easy-download)
+[![Node Version](https://flat.badgen.net/npm/node/easy-download)](https://www.npmjs.com/package/easy-download)
+[![Code Style: Prettier](https://flat.badgen.net/badge/code%20style/prettier/ff69b4)](https://github.com/prettier/prettier)
+[![License](https://flat.badgen.net/npm/license/easy-download)](https://github.com/risan/send-request/blob/master/LICENSE)
 
-A promised based library for downloading file.
+Download a file from remote URL easily.
 
 ## Install
 
 ```bash
-$ npm install easy-downloader
+$ npm install easy-download
+
+# Or if you use Yarn
+$ yarn add easy-download
 ```
 
-## Usage
+## Quick Start
 
 ```js
-const EasyDownloader = require('easy-downloader');
+const easyDownload = require("easy-download");
 
-EasyDownloader.download({ uri: 'httpbin.org/image/png', destination: 'test.png' })
-  .then(destination => console.log(`File is downloaded to: ${destination}`))
-  .catch(e => console.error(e.message));
+(async () => {
+  try {
+    await easyDownload("https://httpbin.org/image/jpeg", "foo/bar/baz.jpg");
+  } catch (error) {
+    console.error(error.message);
+  }
+})();
 ```
+
+The `foo/bar` directory will be created automatically if it does not exist.
 
 ## API
 
 ```js
-EasyDownloader.download({
-    uri, destination,
-    [method, encoding, data, formData, headers, auth]
-});
+easyDownload(url, destination, [options]);
 ```
 
-#### Required Parameters:
-- **`uri`** (*`String`*): The URI of the file that you want to download.
-- **`destination`** (*`String`*): The path where your downloaded file will be written.
+### Parameters
 
-#### Optional Parameters:
-- **`method`** (*`String`*): The HTTP request method, default to `GET`.
-- **`encoding`** (*`String`*): Character encoding that will be used to interpret the response from the target URI. Check the Buffer [documentation](https://nodejs.org/api/buffer.html#buffer_buffers_and_character_encodings) for more information.
-- **`data`** (*`Object`*): Request body that needs to be sent as JSON formatted data.
-- **`formData`** (*`Object`*): Request body that needs to be sent in `x-www-form-urlencoded` format.
-- **`headers`** (*`Object`*): Request headers that need to sent.
-- **`auth`** (*`Object`*): HTTP basic authentication credentials, you have to pass the `username` and `password` properties like so: `{ username: 'john', password: 'secret' }`.
-
-Note that `data` and `formData` are only applicable for request methods 'PUT', 'POST', and 'PATCH'. Also the `Content-Type` and `Content-Length` headers will be automatically provided for you.
-
-#### Example
-
-```js
-EasyDownloader.download({
-    uri: 'http://example.com/download',
-    destination: 'test.txt',
-    method: 'POST',
-    encoding: 'utf8',
-    formData: {
-      foo: 'bar'
-    },
-    headers: {
-      'X-Powered-By': 'Easy Downloader'
-    },
-    auth: {
-      username: 'john',
-      password: 'secret'
-    }
-  })
-  .then(destination => console.log(`File is downloaded to: ${destination}`))
-  .catch(e => console.error(e.message));
-```
+* `url` (`String`): The file URL to download.
+* `destination` (`String`): The path to save the downloaded file.
+* `options` (optional `Object`): The HTTP request configuration
+  * `method` (`String`): The HTTP method to use, default to `GET`.
+  * `headers` (`Object`): The request headers to send.
+  * `auth.username` (`String`): The username for HTTP basic auth.
+  * `auth.password` (`String`): The password for HTTP basic auth.
+  * `body` (`Object|FormData`): The request body to send. It can be a plain JavaScript object or an instance of [`FormData`](https://github.com/form-data/form-data).
+  * `json` (`Boolean`): Set to `true` if you want to send the request body with `application/json` content type. Default to `false`, which means that the request body will be sent as `application/x-www-form-urlencoded`. Note that you can still override the content type using the `headers` option.
 
 ## License
 
-MIT © [Risan Bagja Pradana](https://risan.io)
+MIT © [Risan Bagja Pradana](https://bagja.net)
