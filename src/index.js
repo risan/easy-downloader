@@ -9,10 +9,10 @@ const writeToFile = require("write-to-file");
  * @param {Object} options
  * @return {Promise}
  */
-const download = async (url, destination, options = {}) => {
+const easyDownload = async (url, destination, options = {}) => {
   const { body } = await sendRequest(url, { ...options, encoding: null });
 
   return writeToFile(destination, body);
 };
 
-module.exports = download;
+module.exports = easyDownload;
