@@ -1,32 +1,32 @@
 # Easy Download
 
-[![Build Status](https://flat.badgen.net/travis/risan/download-it)](https://travis-ci.org/risan/download-it)
-[![Test Coverage](https://flat.badgen.net/codeclimate/coverage/risan/download-it)](https://codeclimate.com/github/risan/download-it)
-[![Maintainability](https://flat.badgen.net/codeclimate/maintainability/risan/download-it)](https://codeclimate.com/github/risan/download-it)
-[![Latest Stable Version](https://flat.badgen.net/npm/v/download-it)](https://www.npmjs.com/package/download-it)
-[![Node Version](https://flat.badgen.net/npm/node/download-it)](https://www.npmjs.com/package/download-it)
+[![Build Status](https://flat.badgen.net/travis/risan/download)](https://travis-ci.org/risan/download)
+[![Test Coverage](https://flat.badgen.net/codeclimate/coverage/risan/download)](https://codeclimate.com/github/risan/download)
+[![Maintainability](https://flat.badgen.net/codeclimate/maintainability/risan/download)](https://codeclimate.com/github/risan/download)
+[![Latest Stable Version](https://flat.badgen.net/npm/v/@risan/download)](https://www.npmjs.com/package/@risan/download)
+[![Node Version](https://flat.badgen.net/npm/node/@risan/download)](https://www.npmjs.com/package/@risan/download)
 [![Code Style: Prettier](https://flat.badgen.net/badge/code%20style/prettier/ff69b4)](https://github.com/prettier/prettier)
-[![License](https://flat.badgen.net/npm/license/download-it)](https://github.com/risan/send-request/blob/master/LICENSE)
+[![License](https://flat.badgen.net/npm/license/@risan/download)](https://github.com/risan/send-request/blob/master/LICENSE)
 
 Download a file from remote URL easily.
 
 ## Install
 
 ```bash
-$ npm install download-it
+$ npm install @risan/download
 
 # Or if you use Yarn
-$ yarn add download-it
+$ yarn add @risan/download
 ```
 
 ## Quick Start
 
 ```js
-const downloadIt = require("download-it");
+const download = require("@risan/download");
 
 (async () => {
   try {
-    await downloadIt("https://httpbin.org/image/jpeg", "foo/bar/baz.jpg");
+    await download("https://httpbin.org/image/jpeg", "foo/bar/baz.jpg");
   } catch (error) {
     console.error(error.message);
   }
@@ -38,7 +38,7 @@ The `foo/bar` directory will be created automatically if it does not exist.
 ## API
 
 ```js
-downloadIt(url, destination, [options]);
+download(url, destination, [options]);
 ```
 
 ### Parameters

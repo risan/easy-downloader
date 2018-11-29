@@ -3,7 +3,7 @@ const fs = require("fs");
 const p = require("path");
 const nock = require("nock");
 
-const downloadIt = require("../src");
+const download = require("../src");
 
 const BASE_URL = "https://example.com";
 const BASE_DIR = `${__dirname}/fixtures`;
@@ -71,7 +71,7 @@ test("it can download a text file", async () => {
 
   expect(fs.existsSync(file)).toBe(false);
 
-  await downloadIt(urlFor("/test.txt"), file);
+  await download(urlFor("/test.txt"), file);
 
   expect(scope.isDone()).toBe(true);
   expect(fs.existsSync(file)).toBe(true);
@@ -93,7 +93,7 @@ test("it can download an html file", async () => {
 
   expect(fs.existsSync(file)).toBe(false);
 
-  await downloadIt(urlFor("/test.html"), file);
+  await download(urlFor("/test.html"), file);
 
   expect(scope.isDone()).toBe(true);
   expect(fs.existsSync(file)).toBe(true);
@@ -118,7 +118,7 @@ test("it can download an image file", async () => {
 
   expect(fs.existsSync(file)).toBe(false);
 
-  await downloadIt(urlFor("/test.png"), file);
+  await download(urlFor("/test.png"), file);
 
   expect(scope.isDone()).toBe(true);
   expect(fs.existsSync(file)).toBe(true);
@@ -140,7 +140,7 @@ test("it can download file and automatically create its parent directories", asy
 
   expect(fs.existsSync(file)).toBe(false);
 
-  await downloadIt(urlFor("/test.txt"), file);
+  await download(urlFor("/test.txt"), file);
 
   expect(scope.isDone()).toBe(true);
   expect(fs.existsSync(file)).toBe(true);
@@ -160,7 +160,7 @@ test("it throws error if status code >= 400", async () => {
   expect(fs.existsSync(file)).toBe(false);
 
   try {
-    await downloadIt(urlFor("/test.txt"), file);
+    await download(urlFor("/test.txt"), file);
   } catch (error) {
     expect(error.response.statusCode).toBe(400);
   }
