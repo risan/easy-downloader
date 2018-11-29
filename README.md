@@ -1,28 +1,28 @@
 # Easy Download
 
-[![Build Status](https://flat.badgen.net/travis/risan/easy-download)](https://travis-ci.org/risan/easy-download)
-[![Test Coverage](https://flat.badgen.net/codeclimate/coverage/risan/easy-download)](https://codeclimate.com/github/risan/easy-download)
-[![Maintainability](https://flat.badgen.net/codeclimate/maintainability/risan/easy-download)](https://codeclimate.com/github/risan/easy-download)
-[![Latest Stable Version](https://flat.badgen.net/npm/v/@risan/easy-download)](https://www.npmjs.com/package/@risan/easy-download)
-[![Node Version](https://flat.badgen.net/npm/node/@risan/easy-download)](https://www.npmjs.com/package/@risan/easy-download)
+[![Build Status](https://flat.badgen.net/travis/risan/easy-downloader)](https://travis-ci.org/risan/easy-downloader)
+[![Test Coverage](https://flat.badgen.net/codeclimate/coverage/risan/easy-downloader)](https://codeclimate.com/github/risan/easy-downloader)
+[![Maintainability](https://flat.badgen.net/codeclimate/maintainability/risan/easy-downloader)](https://codeclimate.com/github/risan/easy-downloader)
+[![Latest Stable Version](https://flat.badgen.net/npm/v/easy-downloader)](https://www.npmjs.com/package/easy-downloader)
+[![Node Version](https://flat.badgen.net/npm/node/easy-downloader)](https://www.npmjs.com/package/easy-downloader)
 [![Code Style: Prettier](https://flat.badgen.net/badge/code%20style/prettier/ff69b4)](https://github.com/prettier/prettier)
-[![License](https://flat.badgen.net/npm/license/@risan/easy-download)](https://github.com/risan/send-request/blob/master/LICENSE)
+[![License](https://flat.badgen.net/npm/license/easy-downloader)](https://github.com/risan/send-request/blob/master/LICENSE)
 
 Download a file from remote URL easily.
 
 ## Install
 
 ```bash
-$ npm install @risan/easy-download
+$ npm install easy-downloader
 
 # Or if you use Yarn
-$ yarn add @risan/easy-download
+$ yarn add easy-downloader
 ```
 
 ## Quick Start
 
 ```js
-const easyDownload = require("@risan/easy-download");
+const easyDownload = require("easy-downloader");
 
 (async () => {
   try {

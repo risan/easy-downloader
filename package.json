@@ -1,5 +1,5 @@
 {
-  "name": "@risan/easy-download",
+  "name": "easy-downloader",
   "version": "2.0.0",
   "description": "Download a file from remote URL easily",
   "keywords": [
@@ -7,9 +7,9 @@
     "http",
     "http-client"
   ],
-  "homepage": "https://github.com/risan/easy-download#readme",
+  "homepage": "https://github.com/risan/easy-downloader#readme",
   "bugs": {
-    "url": "https://github.com/risan/easy-download/issues"
+    "url": "https://github.com/risan/easy-downloader/issues"
   },
   "license": "MIT",
   "author": {
@@ -20,7 +20,7 @@
   "main": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/risan/easy-download.git"
+    "url": "git+https://github.com/risan/easy-downloader.git"
   },
   "scripts": {
     "lint": "eslint ./",
