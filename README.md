@@ -1,25 +1,19 @@
 # Easy Download
 
-[![Build Status](https://flat.badgen.net/travis/risan/easy-downloader)](https://travis-ci.org/risan/easy-downloader)
-[![Test Coverage](https://flat.badgen.net/codeclimate/coverage/risan/easy-downloader)](https://codeclimate.com/github/risan/easy-downloader)
-[![Maintainability](https://flat.badgen.net/codeclimate/maintainability/risan/easy-downloader)](https://codeclimate.com/github/risan/easy-downloader)
-[![Latest Stable Version](https://flat.badgen.net/npm/v/easy-downloader)](https://www.npmjs.com/package/easy-downloader)
-[![Node Version](https://flat.badgen.net/npm/node/easy-downloader)](https://www.npmjs.com/package/easy-downloader)
-[![Code Style: Prettier](https://flat.badgen.net/badge/code%20style/prettier/ff69b4)](https://github.com/prettier/prettier)
-[![License](https://flat.badgen.net/npm/license/easy-downloader)](https://github.com/risan/send-request/blob/master/LICENSE)
+[![Build Status](https://badgen.net/travis/risan/easy-downloader)](https://travis-ci.org/risan/easy-downloader)
+[![Test Covarage](https://badgen.net/codecov/c/github/risan/easy-downloader)](https://codecov.io/gh/risan/easy-downloader)
+[![Greenkeeper](https://badges.greenkeeper.io/risan/easy-downloader.svg)](https://greenkeeper.io)
+[![Latest Version](https://badgen.net/npm/v/easy-downloader)](https://www.npmjs.com/package/easy-downloader)
 
-Download a file from remote URL easily.
+Download file from remote URL easily.
 
-## Install
+## Installation
 
 ```bash
 $ npm install easy-downloader
-
-# Or if you use Yarn
-$ yarn add easy-downloader
 ```
 
-## Quick Start
+## Usage
 
 ```js
 const easyDownload = require("easy-downloader");
@@ -59,4 +53,4 @@ easyDownload(url, destination, [options]);
 
 ## License
 
-MIT © [Risan Bagja Pradana](https://bagja.net)
+[MIT](https://github.com/risan/easy-downloader/blob/master/LICENSE) © [Risan Bagja Pradana](https://bagja.net)

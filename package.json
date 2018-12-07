@@ -1,7 +1,7 @@
 {
   "name": "easy-downloader",
-  "version": "2.0.1",
-  "description": "Download a file from remote URL easily",
+  "version": "2.0.2",
+  "description": "Download file from remote URL easily.",
   "keywords": [
     "download",
     "http",
