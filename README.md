@@ -53,4 +53,4 @@ easyDownload(url, destination, [options]);
 
 ## License
 
-[MIT](https://github.com/risan/easy-downloader/blob/master/LICENSE) © [Risan Bagja Pradana](https://bagja.net)
+[MIT](https://github.com/risan/easy-downloader/blob/master/LICENSE) © [Risan Bagja Pradana](https://risanb.com)
