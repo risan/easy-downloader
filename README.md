@@ -2,7 +2,6 @@
 
 [![Build Status](https://badgen.net/travis/risan/easy-downloader)](https://travis-ci.org/risan/easy-downloader)
 [![Test Covarage](https://badgen.net/codecov/c/github/risan/easy-downloader)](https://codecov.io/gh/risan/easy-downloader)
-[![Greenkeeper](https://badges.greenkeeper.io/risan/easy-downloader.svg)](https://greenkeeper.io)
 [![Latest Version](https://badgen.net/npm/v/easy-downloader)](https://www.npmjs.com/package/easy-downloader)
 
 Download file from remote URL easily.
